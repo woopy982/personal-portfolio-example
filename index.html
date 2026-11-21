@@ -219,6 +219,43 @@
       color: var(--heading);
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 2.5rem;
+      min-height: 44px;
+      border-radius: 9999px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-fill);
+      padding: 0 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--body-muted);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      white-space: nowrap;
+      transition: color var(--duration-fast) var(--ease-entrance),
+                  background var(--duration-fast) var(--ease-entrance),
+                  transform var(--duration-fast) var(--ease-entrance);
+    }
+
+    .lang-toggle:hover,
+    .lang-toggle:active {
+      color: var(--heading);
+      background: rgba(255,255,255,0.14);
+    }
+
+    .lang-toggle:active {
+      transform: translateY(1px);
+    }
+
     .pill {
       display: inline-flex;
       align-items: center;
@@ -246,6 +283,7 @@
     }
 
     .pill:focus-visible,
+    .lang-toggle:focus-visible,
     .brand:focus-visible,
     .nav-link:focus-visible,
     .waitlist-bar input:focus-visible {
@@ -416,6 +454,7 @@
       .brand svg { width: 1.5rem; height: 1.5rem; }
       .nav-links { display: flex; }
       .pill { height: 2.75rem; padding: 0 1.375rem; font-size: 0.95rem; }
+      .lang-toggle { height: 2.75rem; padding: 0 1rem; font-size: 0.95rem; }
       .hero-center { max-width: 40rem; }
       .badge { font-size: 0.8rem; }
       .headline {
@@ -461,7 +500,7 @@
     <div class="scrim" aria-hidden="true"></div>
 
     <header class="site-nav" data-reveal="nav" data-delay="150">
-      <a class="brand" href="/" aria-label="Woopy home">
+      <a class="brand" href="/" aria-label="Woopy home" data-i18n-aria="brandAria">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M2.5 9c2.5 0 2.5 4.2 5 4.2S10 9 12 9s2.5 4.2 5 4.2S19.5 9 21.5 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
           <path d="M2.5 15c2.5 0 2.5 4.2 5 4.2S10 15 12 15s2.5 4.2 5 4.2S19.5 15 21.5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
@@ -469,19 +508,22 @@
         <span>Woopy</span>
       </a>
 
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a class="nav-link" href="#how-it-works">How it works?</a>
-        <a class="nav-link" href="#pricing">Pricing</a>
-        <a class="nav-link" href="#products">Products</a>
-        <a class="nav-link" href="#blog">Blog</a>
+      <nav class="nav-links" aria-label="Primary navigation" data-i18n-aria="navAria">
+        <a class="nav-link" href="#how-it-works" data-i18n="navHow">How it works?</a>
+        <a class="nav-link" href="#pricing" data-i18n="navPricing">Pricing</a>
+        <a class="nav-link" href="#products" data-i18n="navProducts">Products</a>
+        <a class="nav-link" href="#blog" data-i18n="navBlog">Blog</a>
       </nav>
 
-      <a class="pill nav-cta" href="#get-started">Get Started</a>
+      <div class="nav-actions">
+        <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch to Chinese" title="Switch to Chinese">中</button>
+        <a class="pill nav-cta" href="#get-started" data-i18n="navCta">Get Started</a>
+      </div>
     </header>
 
     <main class="hero-main">
       <div class="hero-center">
-        <p class="badge" data-reveal="badge" data-delay="320">10K+ already in flow</p>
+        <p class="badge" data-reveal="badge" data-delay="320" data-i18n="badge">10K+ already in flow</p>
 
         <h1 class="headline" id="hero-title" data-word-reveal="heading">Deep Work in a Distracted World</h1>
 
@@ -489,10 +531,10 @@
 
         <div class="waitlist-wrap" data-reveal="waitlist" data-delay="1450">
           <form class="waitlist-form" id="waitlist-form" novalidate>
-            <label class="sr-only" for="email">Email address</label>
+            <label class="sr-only" for="email" data-i18n="emailLabel">Email address</label>
             <div class="waitlist-bar">
-              <input id="email" name="email" type="email" required autocomplete="email" placeholder="Enter your email">
-              <button class="pill" type="submit">Join Waitlist</button>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="Enter your email" data-i18n-placeholder="placeholder">
+              <button class="pill" type="submit" data-i18n="submit">Join Waitlist</button>
             </div>
             <span class="sr-only" id="form-status" role="status" aria-live="polite"></span>
           </form>
@@ -500,7 +542,7 @@
       </div>
     </main>
 
-    <footer class="site-footer" data-reveal="footer" data-delay="1650">
+    <footer class="site-footer" data-reveal="footer" data-delay="1650" data-i18n="footer">
       © 2026 Flowstate — engineered for deep work.
     </footer>
   </section>
@@ -1728,38 +1770,130 @@
       }, 1600);
     }
 
+    const i18n = {
+      en: {
+        brandAria: "Woopy home",
+        navAria: "Primary navigation",
+        navHow: "How it works?",
+        navPricing: "Pricing",
+        navProducts: "Products",
+        navBlog: "Blog",
+        navCta: "Get Started",
+        langToggle: "Switch to Chinese",
+        badge: "10K+ already in flow",
+        heading: "Deep Work in a Distracted World",
+        subline: "Cut through the noise, reclaim your attention, and do work that truly matters.",
+        emailLabel: "Email address",
+        placeholder: "Enter your email",
+        submit: "Join Waitlist",
+        footer: "© 2026 Flowstate — engineered for deep work.",
+        title: "Flowstate — Deep Work in a Distracted World",
+        description: "Flowstate — deep work in a distracted world. Join the waitlist.",
+        status: "Thanks — you're on the list."
+      },
+      zh: {
+        brandAria: "Woopy 首页",
+        navAria: "主导航",
+        navHow: "如何使用？",
+        navPricing: "定价",
+        navProducts: "产品",
+        navBlog: "博客",
+        navCta: "开始使用",
+        langToggle: "切换到英文",
+        badge: "已有 1 万+ 人进入心流",
+        heading: "在分心的世界里深度工作",
+        subline: "穿过喧嚣，重新夺回注意力，做真正重要的工作。",
+        emailLabel: "邮箱地址",
+        placeholder: "输入你的邮箱",
+        submit: "加入等候名单",
+        footer: "© 2026 Flowstate — 为深度工作而打造。",
+        title: "Flowstate — 在分心的世界里深度工作",
+        description: "Flowstate — 在分心的世界里深度工作。加入等候名单。",
+        status: "感谢你 — 已加入等候名单。"
+      }
+    };
+
+    let currentLang = "en";
+
     const revealConfig = {
       heading: { delay: 480, stagger: 85, duration: 720, from: 26 },
       subline: { delay: 1150, stagger: 22, duration: 600, from: 14 }
     };
 
-    function splitAndReveal(el, config) {
-      const text = el.textContent.trim().replace(/\s+/g, " ");
+    function splitAndReveal(el, config, text, immediate = false, lang = "en") {
+      const units = lang === "zh" ? Array.from(text.replace(/\s+/g, "")) : text.trim().split(/\s+/);
+      const separator = lang === "zh" ? "" : " ";
       el.setAttribute("aria-label", text);
       el.textContent = "";
 
       const spans = [];
-      text.split(" ").forEach((word, index) => {
+      units.forEach((unit, index) => {
         const span = document.createElement("span");
         span.className = "word";
-        span.textContent = word;
-        span.style.transitionDuration = config.duration + "ms";
-        span.style.transitionDelay = (config.delay + index * config.stagger) + "ms";
+        span.textContent = unit;
+        if (immediate) {
+          span.style.transitionDuration = "0ms";
+          span.style.transitionDelay = "0ms";
+        } else {
+          span.style.transitionDuration = config.duration + "ms";
+          span.style.transitionDelay = (config.delay + index * config.stagger) + "ms";
+        }
         el.appendChild(span);
-        if (index < text.split(" ").length - 1)
-          el.appendChild(document.createTextNode(" "));
+        if (index < units.length - 1)
+          el.appendChild(document.createTextNode(separator));
         spans.push(span);
       });
 
-      requestAnimationFrame(() => {
+      if (immediate) {
+        spans.forEach((span) => span.classList.add("is-visible"));
+      } else {
         requestAnimationFrame(() => {
-          spans.forEach((span) => span.classList.add("is-visible"));
+          requestAnimationFrame(() => {
+            spans.forEach((span) => span.classList.add("is-visible"));
+          });
         });
-      });
+      }
     }
 
     document.querySelectorAll("[data-word-reveal]").forEach((el) => {
-      splitAndReveal(el, revealConfig[el.dataset.wordReveal]);
+      const key = el.dataset.wordReveal;
+      splitAndReveal(el, revealConfig[key], i18n.en[key]);
+    });
+
+    const langToggle = document.getElementById("lang-toggle");
+    const formStatus = document.getElementById("form-status");
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      const t = i18n[lang];
+
+      document.documentElement.lang = lang;
+      document.title = t.title;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) metaDescription.setAttribute("content", t.description);
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = t[el.dataset.i18n];
+      });
+      document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+        el.setAttribute("aria-label", t[el.dataset.i18nAria]);
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        el.placeholder = t[el.dataset.i18nPlaceholder];
+      });
+      document.querySelectorAll("[data-word-reveal]").forEach((el) => {
+        const key = el.dataset.wordReveal;
+        splitAndReveal(el, revealConfig[key], t[key], true, lang);
+      });
+
+      langToggle.textContent = lang === "en" ? "中" : "EN";
+      langToggle.setAttribute("aria-label", t.langToggle);
+      langToggle.title = t.langToggle;
+      if (formStatus.textContent) formStatus.textContent = t.status;
+    }
+
+    langToggle.addEventListener("click", () => {
+      applyLanguage(currentLang === "en" ? "zh" : "en");
     });
 
     requestAnimationFrame(() => {
@@ -1772,7 +1906,6 @@
     });
 
     const form = document.getElementById("waitlist-form");
-    const status = document.getElementById("form-status");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const email = document.getElementById("email");
@@ -1780,7 +1913,7 @@
         email.reportValidity();
         return;
       }
-      status.textContent = "Thanks — you're on the list.";
+      formStatus.textContent = i18n[currentLang].status;
       email.blur();
     });
 
